@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 12265
+  controlID: 1221
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 12266
+  controlID: 1222
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 12267
+  controlID: 1223
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -225,9 +225,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ac71ffff
-      m_LastClickedID: -36436
-      m_ExpandedIDs: ac71ffff7ee1ffff72f8ffff36fbffff7e570000
+      m_SelectedIDs: a2570000
+      m_LastClickedID: 22434
+      m_ExpandedIDs: 36fbffff84570000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -535,9 +535,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 188.65833, y: 303.48868, z: -142.52396}
+    m_Target: {x: 18.410894, y: 31.337229, z: 46.173847}
     speed: 2
-    m_Value: {x: 188.65833, y: 303.48868, z: -142.52396}
+    m_Value: {x: 18.410894, y: 31.337229, z: 46.173847}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -584,13 +584,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.35869417, y: -0.3515931, z: 0.14803514, w: 0.8519571}
+    m_Target: {x: 0.007670846, y: 0.99125147, z: 0.11349491, w: -0.06701153}
     speed: 2
-    m_Value: {x: -0.3586942, y: 0.3515931, z: -0.14803514, w: -0.85195714}
+    m_Value: {x: 0.007670808, y: 0.99124664, z: 0.11349436, w: -0.0670112}
   m_Size:
-    m_Target: 19.47763
+    m_Target: 12.9174385
     speed: 2
-    m_Value: 19.47763
+    m_Value: 12.9174385
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -709,22 +709,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/com/heparo/terrain/toolkit/textures
+    - Assets/PathCreator/Examples/Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/com/heparo/terrain/toolkit/textures
+  - Assets/PathCreator/Examples/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GitHub Project\VR_3DOF_motion_simulator
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 23}
-    m_SelectedIDs: 1c5b0000
-    m_LastClickedID: 23324
-    m_ExpandedIDs: 00000000be570000c45a00000e5b0000305b0000485b0000
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 405a0000
+    m_LastClickedID: 23104
+    m_ExpandedIDs: 00000000125800009a580000a2580000a4580000a6580000e6580000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -752,7 +752,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000be570000
+    m_ExpandedIDs: 0000000012580000a2580000a4580000a6580000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -777,9 +777,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: ac71ffff
-    m_LastClickedInstanceID: -36436
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: a2570000
+    m_LastClickedInstanceID: 22434
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -897,7 +897,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 232
+  m_LastVerticalScrollValue: 98
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
