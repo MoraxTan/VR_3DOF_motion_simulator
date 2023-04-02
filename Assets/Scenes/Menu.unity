@@ -250,15 +250,15 @@ MonoBehaviour:
     _bezierPath:
       points:
       - {x: -1.9695901, y: -0.041891478, z: -0.0017908514}
-      - {x: -0.91023815, y: 0.14422151, z: -0.053315982}
-      - {x: 0.7795167, y: -0.58499897, z: 0.0196881}
+      - {x: -0.6143104, y: -0.23293082, z: -0.08480421}
+      - {x: 0.79554856, y: -0.4237453, z: 0.10682601}
       - {x: 1.908948, y: -0.41461805, z: -0.2571897}
-      - {x: 4.6376433, y: -0.0029792914, z: -0.9261238}
-      - {x: 4.6681557, y: 0.19124529, z: -0.70132595}
+      - {x: 2.9131055, y: -0.40638632, z: -0.5854898}
+      - {x: 4.4730773, y: -0.32764658, z: -1.0850292}
       - {x: 5.302329, y: -0.033009984, z: -0.55317104}
-      - {x: 6.6713552, y: -0.5171227, z: -0.23334053}
-      - {x: 6.487926, y: -0.855874, z: 2.9585292}
-      - {x: 4.884009, y: -0.96561325, z: 2.1437159}
+      - {x: 6.1427746, y: 0.26560384, z: -0.014133453}
+      - {x: 5.9843893, y: -0.43526286, z: -0.78236914}
+      - {x: 6.9465847, y: -0.7465281, z: 0.14647019}
       isClosed: 0
       space: 0
       controlMode: 0
@@ -271,7 +271,7 @@ MonoBehaviour:
       - 264.18192
       - 283.49756
       - 277.68173
-      - 320.83716
+      - 293.2366
       globalNormalsAngle: 0
       flipNormals: 0
     vertexPathUpToDate: 0
@@ -505,8 +505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 786382159}
-  endOfPathInstruction: 1
-  speed: 5
+  endOfPathInstruction: 2
+  speed: 3
 --- !u!4 &1562376211
 Transform:
   m_ObjectHideFlags: 0
@@ -621,3 +621,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1885499462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1733945558841920, guid: 300f80108a63f48618cb4a1c8b8c1e86, type: 3}
+  m_PrefabInstance: {fileID: 934317318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1885499463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885499462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ce517c2de922949b4685708596fbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 10
