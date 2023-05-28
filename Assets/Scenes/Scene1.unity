@@ -270,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 887904697}
   endOfPathInstruction: 2
-  speed: 5
+  speed: 20
 --- !u!54 &450260940
 Rigidbody:
   m_ObjectHideFlags: 0
