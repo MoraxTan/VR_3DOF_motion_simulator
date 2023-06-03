@@ -75,6 +75,7 @@ public class Acceleration : MonoBehaviour
         // 根据实际需求设置阈值
         float threshold = 0.5f;
 
+        // 根据 x 轴方向判断
         if (acceleration.x > threshold)
         {
             signal += "1"; // 向右
@@ -88,6 +89,7 @@ public class Acceleration : MonoBehaviour
             signal += "0"; // 停止
         }
 
+        // 根据 z 轴方向判断
         if (acceleration.z > threshold)
         {
             signal += "1"; // 向前
