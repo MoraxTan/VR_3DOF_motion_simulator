@@ -18,3 +18,14 @@ D0982730
 ![无标题的笔记本-2](https://user-images.githubusercontent.com/92412075/224519724-9aa9734c-8058-4328-9e78-4e089db87b0c.jpg)
 
 ![无标题的笔记本-3](https://user-images.githubusercontent.com/92412075/224519714-ec040d82-241b-426d-8e22-fe8bdb8ee551.jpg)
+
+## Reference 
+```
+Unity VR set up
+https://www.youtube.com/watch?v=HhtTtvBF5bI&t=78s
+```
+
+## 电线一直烧坏
+```
+那个夹子居然用通电部分顶着塑料的外壳，导致每次运作一段时间后塑料外壳和接触的电线部分粘和在一起
+```
