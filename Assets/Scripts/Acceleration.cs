@@ -55,6 +55,7 @@ public class Acceleration : MonoBehaviour
 
         // 调试信息
         Debug.Log("Signal: " + signal);
+        // yield return new WaitForSeconds((float)0.5);
     }
 
     // 关闭串口连接
@@ -73,34 +74,35 @@ public class Acceleration : MonoBehaviour
         string signal = "";
 
         // 根据实际需求设置阈值
-        float threshold = 0.5f;
+        float threshold = 1.0f;
 
         // 根据 x 轴方向判断
+        /*
         if (acceleration.x > threshold)
         {
             signal += "1"; // 向右
         }
         else if (acceleration.x < -threshold)
         {
-            signal += "2"; // 向左
+            signal += "0"; // 向左
         }
         else
         {
-            signal += "0"; // 停止
-        }
+            signal += "2"; // 停止
+        }*/
 
         // 根据 z 轴方向判断
-        if (acceleration.z > threshold)
+        if (acceleration.y > threshold)
         {
             signal += "1"; // 向前
         }
-        else if (acceleration.z < -threshold)
+        else if (acceleration.y < -threshold)
         {
-            signal += "2"; // 向后
+            signal += "0"; // 向后
         }
         else
         {
-            signal += "0"; // 停止
+            signal += "2"; // 停止
         }
 
         return signal;
