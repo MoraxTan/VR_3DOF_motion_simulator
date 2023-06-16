@@ -67,6 +67,7 @@ public class Acceleration : MonoBehaviour
         }
     }
 
+    float currentAccelerationY = 0f;
     // 将加速度转换为信号形式
     private string ConvertAccelerationToSignal(Vector3 acceleration)
     {
@@ -92,18 +93,20 @@ public class Acceleration : MonoBehaviour
         }*/
 
         // 根据 z 轴方向判断
-        if (acceleration.y > threshold)
+        if (currentAccelerationY > acceleration.y)
         {
             signal += "1"; // 向前
         }
-        else if (acceleration.y < -threshold)
+        /*else if (acceleration.y < -threshold)
         {
             signal += "0"; // 向后
-        }
+        }*/
         else
         {
-            signal += "2"; // 停止
+            signal += "0"; // 停止
         }
+
+        currentAccelerationY = acceleration.y;
 
         return signal;
     }
