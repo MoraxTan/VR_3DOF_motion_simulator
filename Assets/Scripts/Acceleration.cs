@@ -51,7 +51,13 @@ public class Acceleration : MonoBehaviour
 
         // 将加速度转换为信号形式并发送给Arduino
         string signal = ConvertAccelerationToSignal(averageAcceleration);
-        arduinoPort.Write(signal);
+        
+        if (CheckEnd(rb.position) == "stop")
+        {
+            signal = "stop";
+        }
+        
+        //arduinoPort.Write(signal);
 
         // 调试信息
         Debug.Log("Signal: " + signal);
@@ -67,16 +73,15 @@ public class Acceleration : MonoBehaviour
         }
     }
 
+    string[] signal = new string[3];
+    string state = "none";
     float currentAccelerationY = 0f;
     // 将加速度转换为信号形式
     private string ConvertAccelerationToSignal(Vector3 acceleration)
     {
         // 根据加速度值设置对应的信号
-        string signal = "";
-
         // 根据实际需求设置阈值
-        float threshold = 1.0f;
-
+        // float threshold = 1.0f;
         // 根据 x 轴方向判断
         /*
         if (acceleration.x > threshold)
@@ -86,16 +91,13 @@ public class Acceleration : MonoBehaviour
         else if (acceleration.x < -threshold)
         {
             signal += "0"; // 向左
-        }
-        else
-        {
-            signal += "2"; // 停止
         }*/
+
 
         // 根据 z 轴方向判断
         if (currentAccelerationY > acceleration.y)
         {
-            signal += "1"; // 向前
+            signal[2] = "1"; // 向前
         }
         /*else if (acceleration.y < -threshold)
         {
@@ -103,11 +105,54 @@ public class Acceleration : MonoBehaviour
         }*/
         else
         {
-            signal += "0"; // 停止
+            signal[2] = "0"; // 停止
         }
 
         currentAccelerationY = acceleration.y;
 
-        return signal;
+        if (!IsSame(signal))
+        {
+            state = signal[1];
+        }
+        signal[0] = signal[1];
+        signal[1] = signal[2];
+        return state;
+    }
+
+    private bool IsSame(string[] signal)
+    {
+        if (signal[0] == signal[2] || signal[1] == signal[2])
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    float[] position_x = new float[2];
+    float[] position_y = new float[2];
+    float[] position_z = new float[2];
+
+    string CheckEnd(Vector3 position)
+    {
+        // 当position.x/y/z连续重复时，结束游戏
+        // 遇到问题：position进行x/y/z比对，同一数据下不会return "stop"
+        position_x[1] = position.x;
+        position_y[1] = position.y;
+        position_z[1] = position.z;
+
+        if (position_x[0] == position_x[1] && position_y[0] == position_y[1] && position_z[0] == position_z[1])
+        {
+            return "stop";
+        }
+        else
+        {
+            position_x[0] = position_x[1];
+            position_y[0] = position_y[1];
+            position_z[0] = position_z[1];
+        }
+        return null;
     }
 }
