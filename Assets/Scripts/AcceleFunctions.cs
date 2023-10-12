@@ -9,11 +9,11 @@ public static class AcceleFunctions
     {
         if (previousPosition.y > currentPositionY)
         {
-            signal[2] = "0"; // 向下
+            signal[2] = "0"; // 棒棒向下
         }
         else //if(previousAcceleration.y == currentAccelerationY)
         {
-            signal[2] = "1"; // 向上
+            signal[2] = "1"; // 棒棒向上
         }
 
         currentPositionY = previousPosition.y;
@@ -23,13 +23,13 @@ public static class AcceleFunctions
 
     public static string ConvertAccelerationToSignal(Vector3 previousAcceleration, float currentAccelerationX, float currentAccelerationZ, ref string[] signal, ref string state)
     {
-        if (previousAcceleration.x > currentAccelerationX)
+        if (previousAcceleration.x < currentAccelerationX)
         {
-            signal[2] = "0"; // 向下
+            signal[2] = "0"; // 棒棒向下
         }
-        else //if(previousAcceleration.x == currentAccelerationX)
+        else //if(previousAcceleration.x > currentAccelerationX)
         {
-            signal[2] = "1"; // 向上
+            signal[2] = "1"; // 棒棒向上
         }
 
         currentAccelerationX = previousAcceleration.x;

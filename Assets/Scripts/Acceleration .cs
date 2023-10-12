@@ -42,8 +42,9 @@ public class Acceleration : MonoBehaviour
         rb.AddForce(previousAcceleration, ForceMode.Acceleration);
 
         string[] pre = new string[3];
+        string yPosSignal = "";
         pre[2]= ConvertAccelerationToSignal(previousAcceleration);
-        
+        yPosSignal = ConvertYPositionToSignal(previousPosition);
         /*if (CheckEnd(rb.position) == "stop")
         {
             signal = "stop";
@@ -60,7 +61,6 @@ public class Acceleration : MonoBehaviour
         // yield return new WaitForSeconds((float)0.5);
     }
 
-    // 关闭串口连接
     private void OnDestroy()
     {
         if (arduinoPort != null && arduinoPort.IsOpen)
