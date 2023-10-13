@@ -4,24 +4,34 @@ using UnityEngine;
 using System.IO.Ports;
 
 public class Acceleration : MonoBehaviour
-{
-    private Rigidbody rb;
-    private Vector3 previousPosition;
+{   
+    // for rigid body use
+    private Rigidbody rb;   
+
+    // to save the last state
+    private Vector3 previousPosition;   
     private Vector3 previousVelocity;
     private Vector3 previousAcceleration;
-    private SerialPort arduinoPort; // 串口对象
-    public string portName = "COM3"; // Arduino所连接的串口号
-    public int baudRate = 9600; // 串口波特率
+    
+    // determine serial port 
+    private SerialPort arduinoPort; 
+    // define your port name
+    public string portName = "COM3";
+    // baud rate setting, default num '9600'
+    public int baudRate = 9600; 
 
     // Start is called before the first frame update
     void Start()
     {
+        // define the component of rigid body
         rb = GetComponent<Rigidbody>();
+
+        // define the begin number to these parameters
         previousPosition = rb.position;
         previousVelocity = Vector3.zero;
         previousAcceleration = Vector3.zero;
 
-        // 初始化串口
+        // initialize and open to use the serial port
         arduinoPort = new SerialPort(portName, baudRate);
         arduinoPort.Open();
     }
@@ -29,12 +39,14 @@ public class Acceleration : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // record the time per frame
         float timeDelta = Time.fixedDeltaTime;
 
+        // calculate the velocity and acceleration of rigid body
         Vector3 velocity = (rb.position - previousPosition) / timeDelta;
-
         Vector3 acceleration = (velocity - previousVelocity) / timeDelta;
 
+        // asign the parameters
         previousVelocity = velocity;
         previousPosition = rb.position;
         previousAcceleration = acceleration;
@@ -44,7 +56,9 @@ public class Acceleration : MonoBehaviour
         string[] pre = new string[3];
         string yPosSignal = "";
         pre[2]= ConvertAccelerationToSignal(previousAcceleration);
+
         yPosSignal = ConvertYPositionToSignal(previousPosition);
+
         /*if (CheckEnd(rb.position) == "stop")
         {
             signal = "stop";
@@ -69,18 +83,23 @@ public class Acceleration : MonoBehaviour
         }
     }
 
-    string[] signal = new string[3];
+    string[] signal = new string[3];    // for x,z position 
+    string ySignal = "0";               // for y position only
+
     string state = "none";
-    float currentAccelerationX = 0f;
-    float currentAccelerationZ = 0f;
 
-    float currentPositionY = 0f;
+    float currentAccelerationX = 0f;    // to save the last state of x
+    float currentAccelerationZ = 0f;    // to save the last state of z
 
+    float currentPositionY = 0f;        // to save the last state of y, cause the change of y is simplify to use
+
+    /* only for the y position */
     private string ConvertYPositionToSignal(Vector3 previousPosition)
     {
-        return AcceleFunctions.ConvertYPositionToSignal(previousPosition, currentPositionY, ref signal, ref state);
+        return AcceleFunctions.ConvertYPositionToSignal(previousPosition, currentPositionY, ref ySignal);
     }
 
+    /* used to compare the change of x and z */
     private string ConvertAccelerationToSignal(Vector3 previousAcceleration)
     {
         return AcceleFunctions.ConvertAccelerationToSignal(previousAcceleration, currentAccelerationX, currentAccelerationZ, ref signal, ref state);
