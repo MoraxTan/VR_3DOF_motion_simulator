@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
+using System;
 
 public class Acceleration : MonoBehaviour
 {   
@@ -37,7 +38,7 @@ public class Acceleration : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         // record the time per frame
         float timeDelta = Time.fixedDeltaTime;
@@ -51,7 +52,7 @@ public class Acceleration : MonoBehaviour
         previousPosition = rb.position;
         previousAcceleration = acceleration;
 
-        rb.AddForce(previousAcceleration, ForceMode.Acceleration);
+        //rb.AddForce(previousAcceleration, ForceMode.Acceleration);
 
         string[] pre = new string[3];
         string yPosSignal = "";
@@ -71,8 +72,13 @@ public class Acceleration : MonoBehaviour
         }
         pre[0] = pre[1];
         pre[1] = pre[2];
-        
-        // yield return new WaitForSeconds((float)0.5);
+
+        StartCoroutine(delayFunction());
+    }
+
+    IEnumerator delayFunction()
+    {
+        yield return new WaitForSeconds((float)0.5);
     }
 
     private void OnDestroy()
