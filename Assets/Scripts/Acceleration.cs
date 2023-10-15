@@ -69,10 +69,11 @@ public class Acceleration : MonoBehaviour
         {
             Debug.Log("Signal: " + pre[2]);
             arduinoPort.Write(pre[2]);
+            // arduinoPort.Write(yPosSignal);
         }
         pre[0] = pre[1];
         pre[1] = pre[2];
-
+        
         StartCoroutine(delayFunction());
     }
 

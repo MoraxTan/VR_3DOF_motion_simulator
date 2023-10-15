@@ -27,7 +27,7 @@ public static class AcceleFunctions
         {
             signal[2] = "0"; // 棒棒向下
         }
-        else //if(previousAcceleration.x > currentAccelerationX)
+        else //if(previousAcceleration.x >= currentAccelerationX)
         {
             signal[2] = "1"; // 棒棒向上
         }
