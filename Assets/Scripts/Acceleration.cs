@@ -41,7 +41,7 @@ public class Acceleration : MonoBehaviour
     void Update()
     {
         // record the time per frame
-        float timeDelta = Time.fixedDeltaTime;
+        float timeDelta = Time.deltaTime;
 
         // calculate the velocity and acceleration of rigid body
         Vector3 velocity = (rb.position - previousPosition) / timeDelta;
@@ -56,7 +56,7 @@ public class Acceleration : MonoBehaviour
 
         string[] pre = new string[3];
         string yPosSignal = "";
-        pre[2]= ConvertAccelerationToSignal(previousAcceleration);
+        pre[2] = ConvertAccelerationToSignal(previousAcceleration);
 
         yPosSignal = ConvertYPositionToSignal(previousPosition);
 
