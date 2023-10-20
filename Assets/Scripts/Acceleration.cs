@@ -53,7 +53,6 @@ public class Acceleration : MonoBehaviour
         previousAcceleration = acceleration;
 
         //rb.AddForce(previousAcceleration, ForceMode.Acceleration);
-
         string[] pre = new string[3];
         string yPosSignal = "";
         pre[2] = ConvertAccelerationToSignal(previousAcceleration);
