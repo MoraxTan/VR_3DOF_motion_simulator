@@ -66,8 +66,8 @@ public class Acceleration : MonoBehaviour
 
         if (!IsSame(pre))
         {
-            Debug.Log("Signal: " + pre[2]);
-            arduinoPort.Write(pre[2]);
+            Debug.Log("Signal: " + yPosSignal/*pre[2]*/);
+            //arduinoPort.Write(yPosSignal/*pre[2]*/);
             // arduinoPort.Write(yPosSignal);
         }
         pre[0] = pre[1];
@@ -98,12 +98,12 @@ public class Acceleration : MonoBehaviour
     float currentAccelerationX = 0f;    // to save the last state of x
     float currentAccelerationZ = 0f;    // to save the last state of z
 
-    float currentPositionY = 0f;        // to save the last state of y, cause the change of y is simplify to use
+    Vector3 currentPosition;        // to save the last state of y, cause the change of y is simplify to use
 
     /* only for the y position */
     private string ConvertYPositionToSignal(Vector3 previousPosition)
     {
-        return AcceleFunctions.ConvertYPositionToSignal(previousPosition, currentPositionY, ref ySignal);
+        return AcceleFunctions.ConvertYPositionToSignal(previousPosition, ref currentPosition, ref ySignal);
     }
 
     /* used to compare the change of x and z */

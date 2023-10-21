@@ -5,18 +5,18 @@ using UnityEngine;
 public static class AcceleFunctions
 {
     /* This program used to implement the functions of Acceleration.cs */
-    public static string ConvertYPositionToSignal(Vector3 previousPosition, float currentPositionY, ref string ySignal)
+    public static string ConvertYPositionToSignal(Vector3 previousPosition, ref Vector3 currentPosition, ref string ySignal)
     {
-        if (previousPosition.y < currentPositionY)
+        if (previousPosition.y < currentPosition.y)
         {
             ySignal = "0"; // 棒棒向下
         }
-        else //if(previousAcceleration.y >= currentAccelerationY)
+        else if(previousPosition.y >= currentPosition.y)
         {
             ySignal = "1"; // 棒棒向上
         }
 
-        currentPositionY = previousPosition.y;
+        currentPosition.y = previousPosition.y;
 
         return ySignal;
     }
