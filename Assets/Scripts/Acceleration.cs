@@ -54,21 +54,14 @@ public class Acceleration : MonoBehaviour
 
         //rb.AddForce(previousAcceleration, ForceMode.Acceleration);
 
-        yPosSignal = ConvertPositionToSignal(previousPosition);
-
-        /*if (CheckEnd(rb.position) == "stop")
-        {
-            signal = "stop";
-        }*/
+        yPosSignal = ConvertPositionToSignal(previousPosition, previousAcceleration);
 
         if (!IsSame(pre))
         {
-            Debug.Log("Signal: " + yPosSignal/*pre[2]*/);
-            //arduinoPort.Write(yPosSignal/*pre[2]*/);
+            Debug.Log("Signal: " + yPosSignal);
+            arduinoPort.Write(yPosSignal);
         }
-        pre[0] = pre[1];
-        pre[1] = pre[2];
-        
+
         StartCoroutine(delayFunction());
     }
 
