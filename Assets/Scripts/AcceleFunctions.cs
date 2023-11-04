@@ -5,36 +5,58 @@ using UnityEngine;
 public static class AcceleFunctions
 {
     /* This program used to implement the functions of Acceleration.cs */
-    public static string ConvertYPositionToSignal(Vector3 previousPosition, ref Vector3 currentPosition, ref string ySignal)
+    public static string ConvertPositionToSignal(Vector3 previousPosition,
+                                                 ref Vector3 currentPosition,
+                                                 ref string ySignal, 
+                                                 Vector3 previousAcceleration,
+                                                 ref float currentAccelerationX,
+                                                 ref float currentAccelerationZ,)
     {
-        if (previousPosition.y < currentPosition.y)
+        /*
+         * case 1: up
+         * case 2: down
+         * case 3: uphill dan turn left
+         * case 4: uphill dan turn right
+         * case 5: downhill dan turn left
+         * case 6: downhill dan turn right
+         */
+        if ((previousPosition.y - currentPosition.y) < 0 
+            && (previousAcceleration.x - currentAccelerationX) < 0.5
+            && (previousAcceleration.z - currentAccelerationZ) < 0.5)
         {
-            ySignal = "0"; // 棒棒向下
+            ySignal = "2";
         }
-        else if(previousPosition.y >= currentPosition.y)
+        else if((previousPosition.y - currentPosition.y) > 0 
+                && (previousAcceleration.x - currentAccelerationX) < 0.5
+                && (previousAcceleration.z - currentAccelerationZ) < 0.5)
         {
-            ySignal = "1"; // 棒棒向上
+            ySignal = "1";
         }
-
+        else if((previousAcceleration.x - currentAccelerationX) > 0
+                && (previousAcceleration.z - currentAccelerationZ) < 0)
+        {
+            ySignal = "3"; 
+        }
+        else if((previousAcceleration.x - currentAccelerationX) > 0
+                && (previousAcceleration.z - currentAccelerationZ) > 0)
+        {
+            ySignal = "4";
+        }
+        else if((previousAcceleration.x - currentAccelerationX) < 0
+                && (previousAcceleration.z - currentAccelerationZ) < 0)
+        {
+            ySignal = "5";
+        }
+        else if((previousAcceleration.x - currentAccelerationX) < 0
+                && (previousAcceleration.z - currentAccelerationZ) > 0)
+        {
+            ySignal = "6";
+        }
         currentPosition.y = previousPosition.y;
+        currentAccelerationX = previousAcceleration.x;
+        currentAccelerationZ = previousAcceleration.z;
 
         return ySignal;
-    }
-
-    public static string ConvertAccelerationToSignal(Vector3 previousAcceleration, float currentAccelerationX, float currentAccelerationZ, ref string[] signal, ref string state)
-    {
-        if (previousAcceleration.x < currentAccelerationX)
-        {
-            signal[2] = "0"; // 棒棒向下
-        }
-        else //if(previousAcceleration.x >= currentAccelerationX)
-        {
-            signal[2] = "1"; // 棒棒向上
-        }
-
-        currentAccelerationX = previousAcceleration.x;
-        
-        return signal[2];
     }
 
     public static bool IsSame(string[] signal)
