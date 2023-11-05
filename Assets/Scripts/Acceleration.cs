@@ -10,9 +10,9 @@ public class Acceleration : MonoBehaviour
     private Rigidbody rb;   
 
     // to save the last state
-    private Vector3 previousPosition;   
-    private Vector3 previousVelocity;
-    private Vector3 previousAcceleration;
+    public Vector3 previousPosition;   
+    public Vector3 previousVelocity;
+    public Vector3 previousAcceleration;
     
     // determine serial port 
     private SerialPort arduinoPort; 
@@ -53,26 +53,15 @@ public class Acceleration : MonoBehaviour
         previousAcceleration = acceleration;
 
         //rb.AddForce(previousAcceleration, ForceMode.Acceleration);
-        string[] pre = new string[3];
-        string yPosSignal = "";
-        pre[2] = ConvertAccelerationToSignal(previousAcceleration);
 
-        yPosSignal = ConvertYPositionToSignal(previousPosition);
-
-        /*if (CheckEnd(rb.position) == "stop")
-        {
-            signal = "stop";
-        }*/
+        yPosSignal = ConvertPositionToSignal(previousPosition, previousAcceleration);
 
         if (!IsSame(pre))
         {
-            Debug.Log("Signal: " + yPosSignal/*pre[2]*/);
-            //arduinoPort.Write(yPosSignal/*pre[2]*/);
-            // arduinoPort.Write(yPosSignal);
+            Debug.Log("Signal: " + yPosSignal);
+            arduinoPort.Write(yPosSignal);
         }
-        pre[0] = pre[1];
-        pre[1] = pre[2];
-        
+
         StartCoroutine(delayFunction());
     }
 
@@ -101,15 +90,14 @@ public class Acceleration : MonoBehaviour
     Vector3 currentPosition;        // to save the last state of y, cause the change of y is simplify to use
 
     /* only for the y position */
-    private string ConvertYPositionToSignal(Vector3 previousPosition)
+    private string ConvertPositionToSignal(Vector3 previousPosition, Vector3 previousAcceleration)
     {
-        return AcceleFunctions.ConvertYPositionToSignal(previousPosition, ref currentPosition, ref ySignal);
-    }
-
-    /* used to compare the change of x and z */
-    private string ConvertAccelerationToSignal(Vector3 previousAcceleration)
-    {
-        return AcceleFunctions.ConvertAccelerationToSignal(previousAcceleration, currentAccelerationX, currentAccelerationZ, ref signal, ref state);
+        return AcceleFunctions.ConvertPositionToSignal(previousPosition,
+                                                       ref currentPosition,
+                                                       ref ySignal,
+                                                       previousAcceleration,
+                                                       ref currentAccelerationX,
+                                                       ref currentAccelerationZ);
     }
 
     private bool IsSame(string[] signal)
