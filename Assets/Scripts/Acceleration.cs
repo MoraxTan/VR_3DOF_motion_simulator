@@ -5,21 +5,22 @@ using System.IO.Ports;
 using System;
 
 public class Acceleration : MonoBehaviour
-{   
+{
     // for rigid body use
-    private Rigidbody rb;   
+    private Rigidbody rb;
 
     // to save the last state
-    public Vector3 previousPosition;   
+    public Vector3 previousPosition;
     public Vector3 previousVelocity;
     public Vector3 previousAcceleration;
-    
+    public string yPosSignal = "";
     // determine serial port 
-    private SerialPort arduinoPort; 
+    private SerialPort arduinoPort;
     // define your port name
     public string portName = "COM3";
     // baud rate setting, default num '9600'
-    public int baudRate = 9600; 
+    public int baudRate = 9600;
+    public int state = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -52,15 +53,12 @@ public class Acceleration : MonoBehaviour
         previousPosition = rb.position;
         previousAcceleration = acceleration;
 
-        //rb.AddForce(previousAcceleration, ForceMode.Acceleration);
+        rb.AddForce(previousAcceleration, ForceMode.Acceleration);
 
         yPosSignal = ConvertPositionToSignal(previousPosition, previousAcceleration);
 
-        if (!IsSame(pre))
-        {
-            Debug.Log("Signal: " + yPosSignal);
-            arduinoPort.Write(yPosSignal);
-        }
+        Debug.Log("Signal: " + yPosSignal);
+        //arduinoPort.Write(yPosSignal);
 
         StartCoroutine(delayFunction());
     }
@@ -68,7 +66,7 @@ public class Acceleration : MonoBehaviour
     IEnumerator delayFunction()
     {
         // its better than WaitForSeconds()
-        yield return new WaitForSecondsRealtime((float)1.0); 
+        yield return new WaitForSecondsRealtime((float)1.0);
     }
 
     private void OnDestroy()
@@ -81,8 +79,6 @@ public class Acceleration : MonoBehaviour
 
     string[] signal = new string[3];    // for x,z position 
     string ySignal = "0";               // for y position only
-
-    string state = "none";
 
     float currentAccelerationX = 0f;    // to save the last state of x
     float currentAccelerationZ = 0f;    // to save the last state of z
@@ -98,19 +94,5 @@ public class Acceleration : MonoBehaviour
                                                        previousAcceleration,
                                                        ref currentAccelerationX,
                                                        ref currentAccelerationZ);
-    }
-
-    private bool IsSame(string[] signal)
-    {
-        return AcceleFunctions.IsSame(signal);
-    }
-
-    float[] position_x = new float[2];
-    float[] position_y = new float[2];
-    float[] position_z = new float[2];
-
-    private string CheckEnd(Vector3 position)
-    {
-        return AcceleFunctions.CheckEnd(position, ref position_x, ref position_y, ref position_z);
     }
 }

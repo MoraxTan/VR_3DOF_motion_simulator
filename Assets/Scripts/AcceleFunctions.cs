@@ -7,89 +7,43 @@ public static class AcceleFunctions
     /* This program used to implement the functions of Acceleration.cs */
     public static string ConvertPositionToSignal(Vector3 previousPosition,
                                                  ref Vector3 currentPosition,
-                                                 ref string ySignal, 
+                                                 ref string ySignal,
                                                  Vector3 previousAcceleration,
                                                  ref float currentAccelerationX,
-                                                 ref float currentAccelerationZ,)
+                                                 ref float currentAccelerationZ)
     {
         /*
-         * case 1: up
-         * case 2: down
-         * case 3: uphill dan turn left
-         * case 4: uphill dan turn right
-         * case 5: downhill dan turn left
-         * case 6: downhill dan turn right
-         */
-        if ((previousPosition.y - currentPosition.y) < 0 
-            && (previousAcceleration.x - currentAccelerationX) < 0.5
-            && (previousAcceleration.z - currentAccelerationZ) < 0.5)
+        case 0 : reset to same heigh (2.5s)
+         case 1 : both up with normal speed (0.5s)
+         case 2 : both down with normal speed (0.5s) 
+         case 3 : both up with slow speed (0.1s + 0.1s delay) * 2 times + 0.1s
+         case 4 : turn left (0.5s)
+         case 5 : turn right (0.5s)
+        */
+        if ((previousPosition.y - currentPosition.y) < 0
+            && (previousAcceleration.x - currentAccelerationX) < 0.8
+            && (previousAcceleration.z - currentAccelerationZ) < 0.8)
         {
             ySignal = "2";
         }
-        else if((previousPosition.y - currentPosition.y) > 0 
-                && (previousAcceleration.x - currentAccelerationX) < 0.5
-                && (previousAcceleration.z - currentAccelerationZ) < 0.5)
+        else if ((previousPosition.y - currentPosition.y) > 0
+                && (previousAcceleration.x - currentAccelerationX) < 0.8
+                && (previousAcceleration.z - currentAccelerationZ) < 0.8)
         {
             ySignal = "1";
         }
-        else if((previousAcceleration.x - currentAccelerationX) > 0
-                && (previousAcceleration.z - currentAccelerationZ) < 0)
-        {
-            ySignal = "3"; 
-        }
-        else if((previousAcceleration.x - currentAccelerationX) > 0
-                && (previousAcceleration.z - currentAccelerationZ) > 0)
+        else if ((previousAcceleration.z - currentAccelerationZ) < 0)
         {
             ySignal = "4";
         }
-        else if((previousAcceleration.x - currentAccelerationX) < 0
-                && (previousAcceleration.z - currentAccelerationZ) < 0)
+        else if ((previousAcceleration.z - currentAccelerationZ) > 0)
         {
             ySignal = "5";
-        }
-        else if((previousAcceleration.x - currentAccelerationX) < 0
-                && (previousAcceleration.z - currentAccelerationZ) > 0)
-        {
-            ySignal = "6";
         }
         currentPosition.y = previousPosition.y;
         currentAccelerationX = previousAcceleration.x;
         currentAccelerationZ = previousAcceleration.z;
 
         return ySignal;
-    }
-
-    public static bool IsSame(string[] signal)
-    {
-        if (signal[0] == signal[2] && signal[1] == signal[2])
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public static string CheckEnd(Vector3 position, ref float[] position_x, ref float[] position_y, ref float[] position_z)
-    {
-        // 检查游戏是否结束的代码
-        // 当position.x/y/z连续重复时，结束游戏
-        // 遇到问题：position进行x/y/z比对，同一数据下不会return "stop"
-        position_x[1] = position.x;
-        position_y[1] = position.y;
-        position_z[1] = position.z;
-
-        if (position_x[0] == position_x[1] && position_y[0] == position_y[1] && position_z[0] == position_z[1])
-        {
-            return "stop";
-        }
-        else
-        {
-            position_x[0] = position_x[1];
-            position_y[0] = position_y[1];
-            position_z[0] = position_z[1];
-        }
-        return null;
     }
 }
