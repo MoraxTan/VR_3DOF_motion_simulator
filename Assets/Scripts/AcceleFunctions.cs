@@ -20,25 +20,21 @@ public static class AcceleFunctions
          case 4 : turn left (0.5s)
          case 5 : turn right (0.5s)
         */
-        if ((previousPosition.y - currentPosition.y) < 0
-            && (previousAcceleration.x - currentAccelerationX) < 0.8
-            && (previousAcceleration.z - currentAccelerationZ) < 0.8)
+        if ((previousPosition.y - currentPosition.y) <= -0.5 /*&& (previousAcceleration.x - currentAccelerationX) == 0*/)
         {
-            ySignal = "2";
+            ySignal = "down";
         }
-        else if ((previousPosition.y - currentPosition.y) > 0
-                && (previousAcceleration.x - currentAccelerationX) < 0.8
-                && (previousAcceleration.z - currentAccelerationZ) < 0.8)
+        else if ((previousPosition.y - currentPosition.y) >= 0.5 /*&& (previousAcceleration.x - currentAccelerationX) == 0*/)
         {
-            ySignal = "1";
+            ySignal = "up";
         }
-        else if ((previousAcceleration.z - currentAccelerationZ) < 0)
+        if ((previousAcceleration.z - currentAccelerationZ) <= -0.5 /*&& (previousPosition.y - currentPosition.y) == 0*/)
         {
-            ySignal = "4";
+            ySignal = "R";
         }
-        else if ((previousAcceleration.z - currentAccelerationZ) > 0)
+        else if ((previousAcceleration.z - currentAccelerationZ) >= 0.5 /*&& (previousPosition.y - currentPosition.y) == 0*/)
         {
-            ySignal = "5";
+            ySignal = "L";
         }
         currentPosition.y = previousPosition.y;
         currentAccelerationX = previousAcceleration.x;
