@@ -7,7 +7,7 @@ using System;
 public class Acceleration : MonoBehaviour
 {
     // for rigid body use
-    private Rigidbody rb;
+    public Transform cubeTransform;
 
     // to save the last state
     public Vector3 previousPosition;
@@ -41,7 +41,7 @@ public class Acceleration : MonoBehaviour
     float currentAccelerationX = 0f;    // to save the last state of x
     float currentAccelerationZ = 0f;    // to save the last state of z
 
-    Vector3 currentPosition = new Vector3(0,0,0);        // to save the last state of y, cause the change of y is simplify to use
+    Vector3 currentPosition = new Vector3(0, 0, 0);        // to save the last state of y, cause the change of y is simplify to use
 
     /* only for the y position */
     private string ConvertPositionToSignal(Vector3 previousPosition, Vector3 previousAcceleration)
@@ -57,11 +57,10 @@ public class Acceleration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // define the component of rigid body
-        rb = GetComponent<Rigidbody>();
+        transform.position = cubeTransform.position;
 
         // define the begin number to these parameters
-        previousPosition = rb.position;
+        previousPosition = transform.position;
         previousVelocity = Vector3.zero;
         previousAcceleration = Vector3.zero;
 
@@ -77,15 +76,13 @@ public class Acceleration : MonoBehaviour
         float timeDelta = Time.deltaTime;
 
         // calculate the velocity and acceleration of rigid body
-        Vector3 velocity = (rb.position - previousPosition) / timeDelta;
+        Vector3 velocity = (transform.position - previousPosition) / timeDelta;
         Vector3 acceleration = (velocity - previousVelocity) / timeDelta;
 
         // asign the parameters
         previousVelocity = velocity;
-        previousPosition = rb.position;
+        previousPosition = transform.position;
         previousAcceleration = acceleration;
-
-        rb.AddForce(previousAcceleration, ForceMode.Acceleration);
 
         yPosSignal = ConvertPositionToSignal(previousPosition, previousAcceleration);
 
@@ -95,5 +92,5 @@ public class Acceleration : MonoBehaviour
         //StartCoroutine(delayFunction());
     }
 
-    
+
 }

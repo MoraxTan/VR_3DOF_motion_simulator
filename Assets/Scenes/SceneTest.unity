@@ -431,6 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 197644668170e844c9ad62f45c3b8d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeTransform: {fileID: 1410061926}
   previousPosition: {x: 0, y: 0, z: 0}
   previousVelocity: {x: 0, y: 0, z: 0}
   previousAcceleration: {x: 0, y: 0, z: 0}

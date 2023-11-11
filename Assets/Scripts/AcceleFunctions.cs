@@ -28,7 +28,7 @@ public static class AcceleFunctions
         {
             ySignal = "up";
         }
-        if ((previousAcceleration.z - currentAccelerationZ) <= -0.5 /*&& (previousPosition.y - currentPosition.y) == 0*/)
+        else if ((previousAcceleration.z - currentAccelerationZ) <= -0.5 /*&& (previousPosition.y - currentPosition.y) == 0*/)
         {
             ySignal = "R";
         }
