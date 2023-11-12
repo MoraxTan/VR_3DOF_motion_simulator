@@ -6,33 +6,36 @@ using System;
 
 public class Signal
 {
-    public enum rotateStatus
+    public enum Status
     {
-        Left, Right, Default
+        /*
+        case 0 : reset to same heigh (2.5s)
+        case 1 : both up with normal speed (0.5s)
+        case 2 : both down with normal speed (0.5s) 
+        case 3 : both up with slow speed (0.1s + 0.1s delay) * 2 times + 0.1s
+        case 4 : turn left (0.5s)
+        case 5 : turn right (0.5s)
+        */
+        Left=4, Right=5, Up=1, Down=2, Default=8
     }
 
-    public enum posStatus
-    {
-        Up, Down, Default
-    }
+    private Status rotateSignal = Status.Default;
 
-    private rotateStatus rotateSignal = rotateStatus.Default;
-
-    private posStatus posSignal = posStatus.Default;
+    private Status posSignal = Status.Default;
     public Signal() { }
-    public void setX(rotateStatus x)
+    public void setX(Status x)
     {
         this.rotateSignal = x;
     }
 
-    public void setY(posStatus y)
+    public void setY(Status y)
     {
         this.posSignal = y;
     }
 
     public string toString()
     {
-        return "{rotateSignal: " + this.rotateSignal + " ,posSignal: " + this.posSignal + " }";
+        return "{rSignal: " + this.rotateSignal + " ,pSignal: " + this.posSignal + " }";
     }
 }
 
@@ -95,21 +98,21 @@ public class Acceleration : MonoBehaviour
         float rotateGate = 5f;
         if (eulerRotationY >= 90f + rotateGate)
         {
-            outputSignal.setX(Signal.rotateStatus.Right);
+            outputSignal.setX(Signal.Status.Right);
         }
         else if (eulerRotationY <= 90f - rotateGate)
         {
-            outputSignal.setX(Signal.rotateStatus.Left);
+            outputSignal.setX(Signal.Status.Left);
         }
 
         // Check for upward/downward movement
         if ((previousPosition.y - olderPositionY) <= -0.5)
         {
-            outputSignal.setY(Signal.posStatus.Down);
+            outputSignal.setY(Signal.Status.Down);
         }
         else if ((previousPosition.y - olderPositionY) >= 0.5)
         {
-            outputSignal.setY(Signal.posStatus.Up);
+            outputSignal.setY(Signal.Status.Up);
         }
         olderPositionY = previousPosition.y;
 
