@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 262.3369, g: 325.0498, b: 430.21924, a: 1}
+  m_IndirectSpecularColor: {r: 261.9007, g: 324.45554, b: 429.43463, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 887904697}
   endOfPathInstruction: 2
-  speed: 8
+  speed: 5
 --- !u!54 &450260940
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -431,13 +431,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubeTransform: {fileID: 1410061926}
+  portName: COM3
+  baudRate: 9600
   previousPosition: {x: 0, y: 0, z: 0}
   previousVelocity: {x: 0, y: 0, z: 0}
   previousAcceleration: {x: 0, y: 0, z: 0}
-  yPosSignal: 
-  portName: COM3
-  baudRate: 9600
-  state: 0
 --- !u!4 &533277157 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420908, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
