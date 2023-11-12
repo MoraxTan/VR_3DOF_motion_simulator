@@ -4,28 +4,56 @@ using UnityEngine;
 using System.IO.Ports;
 using System;
 
+public class Signal
+{
+    public enum rotateStatus
+    {
+        Left, Right, Default
+    }
+
+    public enum posStatus
+    {
+        Up, Down, Default
+    }
+
+    private rotateStatus rotateSignal = rotateStatus.Default;
+
+    private posStatus posSignal = posStatus.Default;
+    public Signal() { }
+    public void setX(rotateStatus x)
+    {
+        this.rotateSignal = x;
+    }
+
+    public void setY(posStatus y)
+    {
+        this.posSignal = y;
+    }
+
+    public string toString()
+    {
+        return "{rotateSignal: " + this.rotateSignal + " ,posSignal: " + this.posSignal + " }";
+    }
+}
+
 public class Acceleration : MonoBehaviour
 {
-    // for rigid body use
-    private Rigidbody rb;
+    public Transform cubeTransform;
+    private SerialPort arduinoPort;
 
-    // to save the last state
+    public string portName = "COM3";
+    public int baudRate = 9600;
+
     public Vector3 previousPosition;
     public Vector3 previousVelocity;
     public Vector3 previousAcceleration;
-    public string yPosSignal = "";
-    // determine serial port 
-    private SerialPort arduinoPort;
-    // define your port name
-    public string portName = "COM3";
-    // baud rate setting, default num '9600'
-    public int baudRate = 9600;
-    public int state = 0;
 
-    IEnumerator delayFunction()
+    float olderPositionY = 0f;
+    Signal outputSignal = new Signal();
+    string ySignal;
+    IEnumerator DelayFunction()
     {
-        // its better than WaitForSeconds()
-        yield return new WaitForSecondsRealtime((float)1.0);
+        yield return new WaitForSecondsRealtime(1.0f);
     }
 
     private void OnDestroy()
@@ -36,64 +64,55 @@ public class Acceleration : MonoBehaviour
         }
     }
 
-    string ySignal = "0";               // for y position only
-
-    float currentAccelerationX = 0f;    // to save the last state of x
-    float currentAccelerationZ = 0f;    // to save the last state of z
-
-    Vector3 currentPosition = new Vector3(0,0,0);        // to save the last state of y, cause the change of y is simplify to use
-
-    /* only for the y position */
-    private string ConvertPositionToSignal(Vector3 previousPosition, Vector3 previousAcceleration)
-    {
-        return AcceleFunctions.ConvertPositionToSignal(previousPosition,
-                                                       ref currentPosition,
-                                                       ref ySignal,
-                                                       previousAcceleration,
-                                                       ref currentAccelerationX,
-                                                       ref currentAccelerationZ);
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        // define the component of rigid body
-        rb = GetComponent<Rigidbody>();
+        transform.position = cubeTransform.position;
+        previousPosition = transform.position;
 
-        // define the begin number to these parameters
-        previousPosition = rb.position;
-        previousVelocity = Vector3.zero;
-        previousAcceleration = Vector3.zero;
-
-        // initialize and open to use the serial port
         arduinoPort = new SerialPort(portName, baudRate);
         arduinoPort.Open();
     }
 
-    // just use Update, not a FixedUpdate. We only need called once per frame, dont want more
     void Update()
     {
-        // record the time per frame
-        float timeDelta = Time.deltaTime;
+        Quaternion currentRotation = transform.rotation;
 
-        // calculate the velocity and acceleration of rigid body
-        Vector3 velocity = (rb.position - previousPosition) / timeDelta;
-        Vector3 acceleration = (velocity - previousVelocity) / timeDelta;
+        previousPosition = transform.position;
 
-        // asign the parameters
-        previousVelocity = velocity;
-        previousPosition = rb.position;
-        previousAcceleration = acceleration;
+        ySignal = ConvertPositionToSignal(previousPosition, currentRotation);
 
-        rb.AddForce(previousAcceleration, ForceMode.Acceleration);
-
-        yPosSignal = ConvertPositionToSignal(previousPosition, previousAcceleration);
-
-        Debug.Log("Signal: " + yPosSignal);
+        Debug.Log("Signal: " + ySignal);
         //arduinoPort.Write(yPosSignal);
 
-        //StartCoroutine(delayFunction());
+        //StartCoroutine(DelayFunction());
     }
 
-    
+    string ConvertPositionToSignal(Vector3 previousPosition, Quaternion currentRotation)
+    {
+        // Use Euler angles for left/right movement detection
+        float eulerRotationY = currentRotation.eulerAngles.y;
+
+        float rotateGate = 5f;
+        if (eulerRotationY >= 90f + rotateGate)
+        {
+            outputSignal.setX(Signal.rotateStatus.Right);
+        }
+        else if (eulerRotationY <= 90f - rotateGate)
+        {
+            outputSignal.setX(Signal.rotateStatus.Left);
+        }
+
+        // Check for upward/downward movement
+        if ((previousPosition.y - olderPositionY) <= -0.5)
+        {
+            outputSignal.setY(Signal.posStatus.Down);
+        }
+        else if ((previousPosition.y - olderPositionY) >= 0.5)
+        {
+            outputSignal.setY(Signal.posStatus.Up);
+        }
+        olderPositionY = previousPosition.y;
+
+        return outputSignal.toString();
+    }
 }
