@@ -48,8 +48,6 @@ public class Acceleration : MonoBehaviour
     public int baudRate = 9600;
 
     public Vector3 previousPosition;
-    public Vector3 previousVelocity;
-    public Vector3 previousAcceleration;
 
     float olderPositionY = 0f;
     Signal outputSignal = new Signal();
@@ -95,24 +93,32 @@ public class Acceleration : MonoBehaviour
         // Use Euler angles for left/right movement detection
         float eulerRotationY = currentRotation.eulerAngles.y;
 
-        float rotateGate = 5f;
-        if (eulerRotationY >= 90f + rotateGate)
+        float rotateGate = 3f;
+        if (eulerRotationY > 90f + rotateGate)
         {
             outputSignal.setX(Signal.Status.Right);
         }
-        else if (eulerRotationY <= 90f - rotateGate)
+        else if (eulerRotationY < 90f - rotateGate)
         {
             outputSignal.setX(Signal.Status.Left);
         }
+        else
+        {
+            outputSignal.setY(Signal.Status.Default);
+        }
 
         // Check for upward/downward movement
-        if ((previousPosition.y - olderPositionY) <= -0.5)
+        if ((previousPosition.y - olderPositionY) < 0)
         {
             outputSignal.setY(Signal.Status.Down);
         }
-        else if ((previousPosition.y - olderPositionY) >= 0.5)
+        else if ((previousPosition.y - olderPositionY) > 0)
         {
             outputSignal.setY(Signal.Status.Up);
+        }
+        else
+        {
+            outputSignal.setY(Signal.Status.Default);
         }
         olderPositionY = previousPosition.y;
 
