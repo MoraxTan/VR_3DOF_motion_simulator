@@ -32,11 +32,6 @@ public class Signal
     {
         this.posSignal = y;
     }
-
-    public string toString()
-    {
-        return "{rSignal: " + this.rotateSignal + " ,pSignal: " + this.posSignal + " }";
-    }
 }
 
 public class Acceleration : MonoBehaviour
@@ -49,12 +44,14 @@ public class Acceleration : MonoBehaviour
 
     public Vector3 previousPosition;
 
+    bool lotteryState = true; // true: rotate, false: pos
     float olderPositionY = 0f;
     Signal outputSignal = new Signal();
     string ySignal;
+    string olderYSignal;
     IEnumerator DelayFunction()
     {
-        yield return new WaitForSecondsRealtime(1.0f);
+        yield return new WaitForSecondsRealtime(0.2f);
     }
 
     private void OnDestroy()
@@ -80,48 +77,43 @@ public class Acceleration : MonoBehaviour
 
         previousPosition = transform.position;
 
-        ySignal = ConvertPositionToSignal(previousPosition, currentRotation);
+        ySignal = ConvertPositionAndRotationToSignal(previousPosition, currentRotation);
 
         Debug.Log("Signal: " + ySignal);
-        //arduinoPort.Write(yPosSignal);
+        arduinoPort.Write(ySignal);
 
         //StartCoroutine(DelayFunction());
     }
 
-    string ConvertPositionToSignal(Vector3 previousPosition, Quaternion currentRotation)
+    string ConvertPositionAndRotationToSignal(Vector3 previousPosition, Quaternion currentRotation)
     {
-        // Use Euler angles for left/right movement detection
+
+        string signal = "";
         float eulerRotationY = currentRotation.eulerAngles.y;
+        float rotateGate = 7f;
 
-        float rotateGate = 3f;
-        if (eulerRotationY > 90f + rotateGate)
+        if (previousPosition.y < olderPositionY)// Check for upward/downward movement
         {
-            outputSignal.setX(Signal.Status.Right);
+            signal = ((int)Signal.Status.Down) + "";
         }
-        else if (eulerRotationY < 90f - rotateGate)
+        else if(previousPosition.y > olderPositionY)
         {
-            outputSignal.setX(Signal.Status.Left);
+            signal = ((int)Signal.Status.Up) + "";
         }
-        else
-        {
-            outputSignal.setY(Signal.Status.Default);
-        }
+        
 
-        // Check for upward/downward movement
-        if ((previousPosition.y - olderPositionY) < 0)
+        if (signal == ySignal)// Use Euler angles for left/right movement detection
         {
-            outputSignal.setY(Signal.Status.Down);
-        }
-        else if ((previousPosition.y - olderPositionY) > 0)
-        {
-            outputSignal.setY(Signal.Status.Up);
-        }
-        else
-        {
-            outputSignal.setY(Signal.Status.Default);
+            if (eulerRotationY >= 90f + rotateGate)
+            {
+                signal = ((int)Signal.Status.Right) + "";
+            }
+            else if (eulerRotationY <= 90f - rotateGate)
+            {
+                signal = ((int)Signal.Status.Left) + "";
+            }
         }
         olderPositionY = previousPosition.y;
-
-        return outputSignal.toString();
+        return signal;
     }
 }
