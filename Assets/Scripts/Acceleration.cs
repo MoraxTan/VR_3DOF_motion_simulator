@@ -20,9 +20,10 @@ public class Signal
     }
 
     private Status rotateSignal = Status.Default;
-
     private Status posSignal = Status.Default;
+
     public Signal() { }
+
     public void setX(Status x)
     {
         this.rotateSignal = x;
@@ -46,9 +47,12 @@ public class Acceleration : MonoBehaviour
 
     bool lotteryState = true; // true: rotate, false: pos
     float olderPositionY = 0f;
+    float olederRotationY = 90f;
+
     Signal outputSignal = new Signal();
     string ySignal;
     string olderYSignal;
+
     IEnumerator DelayFunction()
     {
         yield return new WaitForSecondsRealtime(0.2f);
@@ -90,30 +94,30 @@ public class Acceleration : MonoBehaviour
 
         string signal = "";
         float eulerRotationY = currentRotation.eulerAngles.y;
-        float rotateGate = 7f;
+        float rotateGate = 1f;
+        float posGate = 0f;
 
-        if (previousPosition.y < olderPositionY)// Check for upward/downward movement
+        if (eulerRotationY < olederRotationY - rotateGate)
         {
-            signal = ((int)Signal.Status.Down) + "";
+            signal = ((int)Signal.Status.Left) + "";
         }
-        else if(previousPosition.y > olderPositionY)
+        else if (eulerRotationY > olederRotationY + rotateGate)
         {
-            signal = ((int)Signal.Status.Up) + "";
+            signal = ((int)Signal.Status.Right) + "";
         }
-        
-
-        if (signal == ySignal)// Use Euler angles for left/right movement detection
+        else// Use Euler angles for left/right movement detection
         {
-            if (eulerRotationY >= 90f + rotateGate)
+            if (previousPosition.y < olderPositionY - posGate)// Check for upward/downward movement
             {
-                signal = ((int)Signal.Status.Right) + "";
+                signal = ((int)Signal.Status.Down) + "";
             }
-            else if (eulerRotationY <= 90f - rotateGate)
+            else if (previousPosition.y > olderPositionY + posGate)
             {
-                signal = ((int)Signal.Status.Left) + "";
+                signal = ((int)Signal.Status.Up) + "";
             }
         }
         olderPositionY = previousPosition.y;
+        olederRotationY = eulerRotationY;
         return signal;
     }
 }
