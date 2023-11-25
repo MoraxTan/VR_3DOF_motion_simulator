@@ -44,13 +44,11 @@ public class Acceleration : MonoBehaviour
     public int baudRate = 9600;
 
     public Vector3 previousPosition;
-
-    bool lotteryState = true; // true: rotate, false: pos
     float olderPositionY = 0f;
     float olederRotationY = 90f;
 
     Signal outputSignal = new Signal();
-    string ySignal;
+    public string ySignal;
     string olderYSignal;
 
     IEnumerator DelayFunction()
