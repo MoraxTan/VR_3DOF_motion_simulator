@@ -12,8 +12,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene1.unity
     guid: b7380b700dfec034e8076200269b35ed
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/Scene 1 Toybox.unity
+    guid: 8e699188e7978874cab420be33cbf438
+  - enabled: 1
+    path: Assets/Scenes/SceneTest.unity
+    guid: 395d71205e5eab649a6c433e0aabbd25
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 0d28c1ac74ef1774883769eef72d6782, type: 2}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 1ac5214341983124daea91f8f2158313, type: 2}

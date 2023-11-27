@@ -5,7 +5,7 @@ public class PathEffrctController : MonoBehaviour
 {
     public GameObject fireworksEffect;
     public AudioClip turnSound;
-    public float timeBeforeExit = 10f;
+    public float timeBeforeExit = 3f;
     public float turnSoundDuration = 4f;
 
     private AudioSource audioSource;
@@ -36,12 +36,12 @@ public class PathEffrctController : MonoBehaviour
         {
             isPathCompleted = false;
         }
-
+        Debug.Log("turnDetected outside");
         if (TurnDetected())
         {
+            
             if (!isTurned)
             {
-                // 如果正在播放音效，停止当前音效
                 if (audioSource.isPlaying)
                 {
                     audioSource.Stop();
@@ -55,7 +55,7 @@ public class PathEffrctController : MonoBehaviour
         {
             isTurned = false;
         }
-
+        Debug.Log("turnDetected outside");
         if (fireworksEffect.activeSelf)
         {
             elapsedTime += Time.deltaTime;
@@ -76,15 +76,12 @@ public class PathEffrctController : MonoBehaviour
 
     private void PlayTurnSound()
     {
-        // 播放转向音效
         audioSource.Play();
-        // 在指定时间后停止音效
         Invoke("StopTurnSound", turnSoundDuration);
     }
 
     private void StopTurnSound()
     {
-        // 在指定时间后停止音效
         audioSource.Stop();
     }
 
@@ -100,7 +97,9 @@ public class PathEffrctController : MonoBehaviour
 
     private bool TurnDetected()
     {
+        Debug.Log("turnDetected inside");
         string signal = acceleration.ySignal;
+        Debug.Log(signal);
         return (signal.Equals("1") || signal.Equals("2") || signal.Equals("4") || signal.Equals("5"));
     }
 }
