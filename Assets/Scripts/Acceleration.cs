@@ -9,10 +9,8 @@ public class Signal
     public enum Status
     {
         /*
-        case 0 : reset to same heigh (2.5s)
         case 1 : both up with normal speed (0.5s)
         case 2 : both down with normal speed (0.5s) 
-        case 3 : both up with slow speed (0.1s + 0.1s delay) * 2 times + 0.1s
         case 4 : turn left (0.5s)
         case 5 : turn right (0.5s)
         */
@@ -51,11 +49,6 @@ public class Acceleration : MonoBehaviour
     public string ySignal;
     string olderYSignal;
 
-    IEnumerator DelayFunction()
-    {
-        yield return new WaitForSecondsRealtime(0.2f);
-    }
-
     private void OnDestroy()
     {
         if (arduinoPort != null && arduinoPort.IsOpen)
@@ -83,8 +76,6 @@ public class Acceleration : MonoBehaviour
 
         Debug.Log("Signal: " + ySignal);
         arduinoPort.Write(ySignal);
-
-        //StartCoroutine(DelayFunction());
     }
 
     string ConvertPositionAndRotationToSignal(Vector3 previousPosition, Quaternion currentRotation)
